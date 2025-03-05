@@ -13,7 +13,8 @@ class Store {
         void addCustomer();
         void addItem(int stock, string title, string director, string date);
         void viewInventory();
-        void customerHistory();
-}
+        void customerHistory(int customer);
+        void readFile(string filename);
+};
 
 #endif // STORE_H
