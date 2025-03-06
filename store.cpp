@@ -8,7 +8,6 @@ using namespace std;
 
 Store::Store() {
     // initialize inventory hash table as empty
-
     // initialize customer hash table as empty
 }
 
