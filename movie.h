@@ -5,13 +5,9 @@ using namespace std;
 
 #include <string>
 
-struct MovieHash {
-    
-}
-
 class Movie {
     public:
-
+        
     private:
         int stock;
         string title;
