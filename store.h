@@ -16,7 +16,7 @@ class Store {
         void customerHistory(int customer);
         void readCustomers(string filename);
         void readInventory(string filename);
-        void readTransactions(string filename);
+        void readCommands(string filename);
 };
 
 #endif // STORE_H
