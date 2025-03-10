@@ -24,6 +24,10 @@ void viewInventory() {
     // print CLASSICS movies, by release date then major actor
 }
 
+void customerHistory(int customer) {
+    // print customer history using customer->showTransactions()
+}
+
 void Store::readInventory(string filename) {
     ifstream infile1(filename);
     if (!infile1) {

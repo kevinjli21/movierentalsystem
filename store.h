@@ -12,8 +12,8 @@ class Store {
         ~Store();
         void viewInventory();
         void customerHistory(int customer);
-        void readCustomers(string filename);
         void readInventory(string filename);
+        void readCustomers(string filename);
         void readCommands(string filename);
 };
 
