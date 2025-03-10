@@ -12,6 +12,7 @@ class MovieTable {
         ~MovieTable();
         void put(Movie* movie);
         Movie* get(const string& genre, const string& data);
+        size_t getSize();
     
     
     private: 

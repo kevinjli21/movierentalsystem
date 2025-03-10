@@ -38,7 +38,7 @@ void Store::readInventory(string filename) {
             std::getline(is, director, ',');
             string yearStr;
             std::getline(is, yearStr, ',');
-            int year = stoi(stockStr);
+            int year = stoi(yearStr);
             // Comedy(stock, title, director, year);
             // Add movie to inventory hash table
             

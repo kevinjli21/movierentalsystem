@@ -13,7 +13,6 @@ class Movie {
         string title;
         string director;
 
-
 };
 
 #endif // MOVIE_H
