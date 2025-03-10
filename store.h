@@ -10,8 +10,6 @@ class Store {
     public:
         Store();
         ~Store();
-        void addCustomer();
-        void addItem(int stock, string title, string director, string date);
         void viewInventory();
         void customerHistory(int customer);
         void readCustomers(string filename);

@@ -7,13 +7,21 @@
 using namespace std;
 
 Store::Store() {
-    // initialize inventory hash table as empty
+    // initialize classics hash table as empty
+    // initialize drama hash table as empty
+    // initialize comedy hash table as empty
     // initialize customer hash table as empty
 }
 
 Store::~Store() {
     // delete all customers
     // delete all inventory
+}
+
+void viewInventory() {
+    // print COMEDY movies, by title then year
+    // print DRAMA movies, by director then title
+    // print CLASSICS movies, by release date then major actor
 }
 
 void Store::readInventory(string filename) {
