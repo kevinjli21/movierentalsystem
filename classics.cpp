@@ -42,3 +42,19 @@ bool Classics::operator<(const Classics& other)const{
 bool Classics::operator>(const Classics& other)const{
     return !(*this < other);
 }
+
+string Classics::getFirstName() const{
+    return firstName;
+}
+
+string Classics::getLastName() const{
+    return lastName;
+}
+
+int Classics::getMonth() const{
+    return month;
+}
+
+int Classics::getYear() const{
+    return year;
+}

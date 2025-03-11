@@ -1,16 +1,18 @@
-#include "movieTable.h"
+#include "comedy.h"
+#include <vector>
+#include <list>
 
-class ComedyTable : public MovieTable {
+class ComedyTable {
     public:
         ComedyTable();
-        ~ComedyTable() override = default;
-        Movie* get() override;
-        Movie* get(const string& title, const int& year);
-        void put() override;
-        void* put(Movie* movie);
+        ~ComedyTable();
+        Comedy* get(const string& title, const int& year);
+        void* put(Comedy* movie);
 
     protected:
-        size_t hash() override;
         size_t hash(const string& title, const int& year);
-        void printAll() override;
+        void printAll();
+
+    private: 
+        std::vector<list<Comedy*>> table;
 };

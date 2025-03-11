@@ -9,5 +9,6 @@ class Drama : public Movie{
     void print(ostream& os)const override;
     bool operator<(const Drama& other)const;
     bool operator>(const Drama& other)const;
+    string getDirector() const;
 };
 #endif

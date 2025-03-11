@@ -5,17 +5,21 @@
 
 const int TABLE_SIZE = 101;
 
-ComedyTable::ComedyTable() : MovieTable() {
-
+ComedyTable::ComedyTable() {
+    table.resize(TABLE_SIZE);
 }
 
-Movie* ComedyTable::get() {
-    // empty override - will never use these parameters
+ComedyTable::~ComedyTable() {
+    for (int i = 0; i < TABLE_SIZE; ++i) {
+        for (Comedy* movie : table[i]) {
+            delete movie;
+        }
+    }
 }
 
-Movie* ComedyTable::get(const string& title, const int& year) {
+Comedy* ComedyTable::get(const string& title, const int& year) {
     int index = hash(title, year);
-    for (Movie* movie : table[index]) {
+    for (Comedy* movie : table[index]) {
         if (movie->getTitle() == title && movie->getYear() == year) {
             return movie;
         }
@@ -24,17 +28,9 @@ Movie* ComedyTable::get(const string& title, const int& year) {
     return nullptr;
 }
 
-void ComedyTable::put() {
-    // empty override - will never use these parameters
-}
-
-void* ComedyTable::put(Movie* movie) {
+void* ComedyTable::put(Comedy* movie) {
     int index = hash(movie->getTitle(), movie->getYear());
     table[index].push_back(movie);
-}
-
-size_t hash() {
-    // empty override - will never use these parameters
 }
 
 size_t hash(const string& title, const int& year) {
@@ -47,14 +43,14 @@ size_t hash(const string& title, const int& year) {
 }
 
 void ComedyTable::printAll() {
-    vector<Movie*> toSort;
-    for (list<Movie*> bucket : table) {
-        for (Movie* movie : bucket) {
-            cout << *movie << endl;
+    vector<Comedy*> toSort;
+    for (list<Comedy*> bucket : table) {
+        for (Comedy* movie : bucket) {
+            toSort.push_back(movie);
         }
     }
     sort(toSort.begin(), toSort.end());
-    for (Movie* movie : toSort) {
+    for (Comedy* movie : toSort) {
         cout << *movie << endl;
     }
 }

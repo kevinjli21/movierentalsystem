@@ -29,3 +29,7 @@ bool Drama::operator<(const Drama& other)const{
 bool Drama::operator>(const Drama& other)const{
     return !(*this < other);
 }
+
+string Drama::getDirector() const{
+    return director;
+}

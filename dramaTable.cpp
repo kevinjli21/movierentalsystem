@@ -5,18 +5,23 @@
 
 const int TABLE_SIZE = 101;
 
-DramaTable::DramaTable() : MovieTable() {
-
+DramaTable::DramaTable() {
+    table.resize(TABLE_SIZE);
 }
 
-Movie* DramaTable::get() {
-    // empty override - will never use these parameters
+DramaTable::~DramaTable() {
+    for (int i = 0; i < TABLE_SIZE; ++i) {
+        for (Drama* movie : table[i]) {
+            delete movie;
+        }
+    }
 }
 
-Movie* DramaTable::get(const string& title, const int& year) {
-    int index = hash(title, year);
-    for (Movie* movie : table[index]) {
-        if (movie->getTitle() == title && movie->getYear() == year) {
+
+Drama* DramaTable::get(const string& title, const string& director) {
+    int index = hash(title, director);
+    for (Drama* movie : table[index]) {
+        if (movie->getTitle() == title && movie->getDirector() == director) {
             return movie;
         }
     }
@@ -24,37 +29,31 @@ Movie* DramaTable::get(const string& title, const int& year) {
     return nullptr;
 }
 
-void DramaTable::put() {
-    // empty override - will never use these parameters
-}
-
-void* DramaTable::put(Movie* movie) {
-    int index = hash(movie->getTitle(), movie->getYear());
+void* DramaTable::put(Drama* movie) {
+    int index = hash(movie->getTitle(), movie->getDirector());
     table[index].push_back(movie);
 }
 
-size_t hash() {
-    // empty override - will never use these parameters
-}
-
-size_t hash(const string& title, const int& year) {
+size_t hash(const string& title, const string& director) {
     int hashVal = 0;
     for (char ch : title) {
         hashVal += ch;
     }
-    hashVal += year;
+    for (char ch : director) {
+        hashVal += ch;
+    }
     return hashVal % TABLE_SIZE;
 }
 
 void DramaTable::printAll() {
-    vector<Movie*> toSort;
-    for (list<Movie*> bucket : table) {
-        for (Movie* movie : bucket) {
-            cout << *movie << endl;
+    vector<Drama*> toSort;
+    for (list<Drama*> bucket : table) {
+        for (Drama* movie : bucket) {
+            toSort.push_back(movie);
         }
     }
     sort(toSort.begin(), toSort.end());
-    for (Movie* movie : toSort) {
+    for (Drama* movie : toSort) {
         cout << *movie << endl;
     }
 }

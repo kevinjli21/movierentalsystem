@@ -8,7 +8,11 @@ class Classics : public Movie{
     Classics(int stock, string director, string title, string firstName, string lastName, int month, int year);
     void print(ostream& os)const override;
     bool operator<(const Classics& other)const;
-    bool operator>(const Classics& other)const; 
+    bool operator>(const Classics& other)const;
+    string getFirstName() const;
+    string getLastName() const;
+    int getMonth() const;
+    int getYear() const; 
 
     private:
     string firstName;
