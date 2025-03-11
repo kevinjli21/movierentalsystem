@@ -4,21 +4,19 @@
 #include "customer.h"
 #include <string>
 #include <vector>
+#include <list>
 
 class CustomerTable {
     
     public:
         CustomerTable();
-        CustomerTable();
-        void put(Customer* movie);
+        ~CustomerTable();
+        void put(Customer* customer);
         Customer* get(const int& customerID);
     
-    
     private: 
-        std::vector<Customer*> table;
-
-        size_t hash1(const string& key);
-        size_t hash2(const string& key);
+        std::vector<list<Customer*>> table;
+        size_t hash(const int& key);
 
 };
 

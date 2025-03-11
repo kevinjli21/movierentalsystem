@@ -4,22 +4,19 @@
 #include "movie.h"
 #include <string>
 #include <vector>
+#include <list>
 
 class MovieTable {
-    
     public:
         MovieTable();
-        ~MovieTable();
-        void put(Movie* movie);
-        Movie* get(const string& genre, const string& data);
-    
-    
+        virtual ~MovieTable();
+        virtual void put(Movie* movie) = 0;
+
+    protected:
+        size_t hash(const string& key);
+        
     private: 
-        std::vector<Movie*> table;
-
-        size_t hash1(const string& key);
-        size_t hash2(const string& key);
-
+        std::vector<list<Movie*>> table;
 };
 
 #endif // MOVIETABLE_H

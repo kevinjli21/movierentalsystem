@@ -5,7 +5,7 @@ Comedy::Comedy(int stock, string director, string title, int year):Movie(stock, 
     
 }
 
-void Comedy::print(ostream& os)const{
+void Comedy::print(ostream& os) const {
     os << "Comedy, " << title << ", Director: " << director << ", Release: " << year << ", Stock: " << stock;
 }
 

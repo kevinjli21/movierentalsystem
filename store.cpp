@@ -1,4 +1,9 @@
 #include "store.h"
+#include "movie.h"
+#include "comedy.h"
+#include "drama.h"
+#include "classics.h"
+#include "customer.h"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -11,6 +16,8 @@ Store::Store() {
     // initialize drama hash table as empty
     // initialize comedy hash table as empty
     // initialize customer hash table as empty
+    customerTable = new CustomerTable();
+    
 }
 
 Store::~Store() {
@@ -49,9 +56,9 @@ void Store::readInventory(string filename) {
             std::getline(is, title, ',');
             std::getline(is, director, ',');
             string yearStr;
-            std::getline(is, yearStr, ',');
+            std::getline(is, yearStr);
             int year = stoi(yearStr);
-            // Comedy(stock, title, director, year);
+            Movie* toAdd = new Comedy(stock, title, director, year);
             // Add movie to inventory hash table
             
         } else if (genre == "D") {
@@ -64,12 +71,30 @@ void Store::readInventory(string filename) {
             std::getline(is, title, ',');
             std::getline(is, director, ',');
             string yearStr;
-            std::getline(is, yearStr, ',');
+            std::getline(is, yearStr);
             int year = stoi(stockStr);
-            // Comedy(stock, title, director, year);
+            Movie* toAdd = new Drama(stock, title, director, year);
             // Add movie to inventory hash table
         } else if (genre == "C") {
             // create new classics movie object
+            string title;
+            string director;
+            string stockStr;
+            std::getline(is, stockStr, ',');
+            int stock = stoi(stockStr);
+            std::getline(is, title, ',');
+            std::getline(is, director, ',');
+            string firstName;
+            std::getline(is, firstName, ' ');
+            string lastName;
+            std::getline(is, lastName, ' ');
+            string monthStr;
+            string yearStr;
+            std::getline(is, monthStr, ' ');
+            std::getline(is, yearStr);
+            int month = stoi(monthStr);
+            int year = stoi(yearStr);
+            Movie* toAdd = new Classics(stock, title, director, firstName, lastName, month, year);
         } else {
             cout << "ERROR: " << genre << " Invalid Genre. Try again.";
         }
@@ -93,7 +118,8 @@ void Store::readCustomers(string filename) {
         std::getline(is, lastName, ' ');
         std::getline(is, firstName, ' ');
         int customerID = stoi(id);
-        // create new customer object
+        Customer* toAdd = new Customer(customerID, firstName, lastName);
+        customerTable->put(toAdd);
     }
 }
 

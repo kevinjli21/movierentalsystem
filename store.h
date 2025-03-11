@@ -5,6 +5,7 @@ using namespace std;
 
 #include <string>
 #include <iostream>
+#include "customerTable.h"
 
 class Store {
     public:
@@ -15,6 +16,9 @@ class Store {
         void readInventory(string filename);
         void readCustomers(string filename);
         void readCommands(string filename);
+
+    private:
+        CustomerTable* customerTable;
 };
 
 #endif // STORE_H
