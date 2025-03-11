@@ -26,3 +26,15 @@ ostream& operator<<(ostream& os, const Movie& movie){
     movie.print(os);
     return os;
 }
+
+int Movie::getYear() const{
+    return year;
+}
+
+string Movie::getTitle() const{
+    return title;
+}
+
+string Movie::getDirector() const{
+    return director;
+}

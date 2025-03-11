@@ -15,9 +15,8 @@ class MovieTable {
 
     protected:
         virtual size_t hash(const string& key) = 0;
-        
-    private: 
         std::vector<list<Movie*>> table;
+        
 };
 
 #endif // MOVIETABLE_H

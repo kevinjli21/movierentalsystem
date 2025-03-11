@@ -13,6 +13,9 @@ class Movie{
     void changeStock(int input);
     virtual void print(ostream& os)const = 0;
     friend ostream& operator<<(ostream& os, const Movie& movie);
+    int getYear() const;
+    string getTitle() const;
+    string getDirector() const;
 
     protected:
     string title;
