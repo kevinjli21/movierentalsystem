@@ -4,6 +4,9 @@
 #include "drama.h"
 #include "classics.h"
 #include "customer.h"
+#include "return.h"
+#include "borrow.h"
+#include "transaction.h"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -13,8 +16,11 @@ using namespace std;
 
 Store::Store() {
     // initialize classics hash table as empty
+    classicsTable = new ClassicsTable();
     // initialize drama hash table as empty
+    dramaTable = new DramaTable();
     // initialize comedy hash table as empty
+    comedyTable = new ComedyTable();
     // initialize customer hash table as empty
     customerTable = new CustomerTable();
     
@@ -23,16 +29,26 @@ Store::Store() {
 Store::~Store() {
     // delete all customers
     // delete all inventory
+
 }
 
-void viewInventory() {
+void Store::viewInventory() {
     // print COMEDY movies, by title then year
+    comedyTable->printAll();
     // print DRAMA movies, by director then title
+    dramaTable->printAll();
     // print CLASSICS movies, by release date then major actor
+    classicsTable->printAll();
 }
 
-void customerHistory(int customer) {
+void Store::customerHistory(int customer) {
     // print customer history using customer->showTransactions()
+    Customer* cust = customerTable->get(customer);
+    if (cust != nullptr) {
+        cust->showTransactions();
+    } else {
+        cout << "Customer not found" << endl;
+    }
 }
 
 void Store::readInventory(string filename) {
@@ -58,8 +74,9 @@ void Store::readInventory(string filename) {
             string yearStr;
             std::getline(is, yearStr);
             int year = stoi(yearStr);
-            Movie* toAdd = new Comedy(stock, title, director, year);
+            Comedy* toAdd = new Comedy(stock, title, director, year);
             // Add movie to inventory hash table
+            comedyTable->put(toAdd);
             
         } else if (genre == "D") {
             // create new drama movie object
@@ -73,8 +90,9 @@ void Store::readInventory(string filename) {
             string yearStr;
             std::getline(is, yearStr);
             int year = stoi(stockStr);
-            Movie* toAdd = new Drama(stock, title, director, year);
+            Drama* toAdd = new Drama(stock, title, director, year);
             // Add movie to inventory hash table
+            dramaTable->put(toAdd);
         } else if (genre == "C") {
             // create new classics movie object
             string title;
@@ -94,7 +112,9 @@ void Store::readInventory(string filename) {
             std::getline(is, yearStr);
             int month = stoi(monthStr);
             int year = stoi(yearStr);
-            Movie* toAdd = new Classics(stock, title, director, firstName, lastName, month, year);
+            Classics* toAdd = new Classics(stock, title, director, firstName, lastName, month, year);
+            // Add movie to inventory hash table
+            classicsTable->put(toAdd);
         } else {
             cout << "ERROR: " << genre << " Invalid Genre. Try again.";
         }
@@ -144,11 +164,85 @@ void Store::readCommands(string filename) {
                 string genre;
                 std::getline(is, genre, ' ');
                 if (genre == "F") {
-                    // get from comedy inventory
+                    string title;
+                    std::getline(is, title, ',');
+                    string yearStr;
+                    std::getline(is, yearStr);
+                    int year = stoi(yearStr);
+                    Movie* movie = comedyTable->get(title, year);
+                    if (movie != nullptr) {
+                        if (movie->getStock() > 0) {
+                            movie->changeStock(-1);
+                            Customer* customer = customerTable->get(customerID);
+                            if (customer != nullptr) {
+                                Transaction* transaction = new Borrow(media, movie);
+                                customer->addTransaction(transaction);
+                            } else {
+                                cout << "ERROR: Customer not found." << endl;
+                            }
+                        } else {
+                            cout << "ERROR: Movie out of stock." << endl;
+                        }
+                        // add to customer history
+                    } else {
+                        cout << "ERROR: Movie not found in inventory." << endl;
+                    }
                 } else if (genre == "D") {
                     // get from drama inventory
+                    string director;
+                    std::getline(is, director, ',');
+                    string title;
+                    std::getline(is, title, ',');
+                    Movie* movie = dramaTable->get(title, director);
+                    if (movie != nullptr) {
+                        // create new borrow transaction
+                        if (movie->getStock() > 0) {
+                            movie->changeStock(-1);
+                            Customer* customer = customerTable->get(customerID);
+                            if (customer != nullptr) {
+                                Transaction* transaction = new Borrow(media, movie);
+                                customer->addTransaction(transaction);
+                            } else {
+                                cout << "ERROR: Customer not found." << endl;
+                            }
+                        } else {
+                            cout << "ERROR: Movie out of stock." << endl;
+                        }
+                        // add to customer history
+                    } else {
+                        cout << "ERROR: Movie not found in inventory." << endl;
+                    }
+
+
                 } else if (genre == "C") {
-                    // get from classics inventory
+                    string monthStr;
+                    std::getline(is, monthStr, ' ');
+                    int month = stoi(monthStr);
+                    string yearStr;
+                    std::getline(is, yearStr, ' ');
+                    int year = stoi(yearStr);
+                    string firstName;
+                    std::getline(is, firstName, ' ');
+                    string lastName;
+                    std::getline(is, lastName);
+
+                    Movie* movie = classicsTable->get(firstName, lastName, year, month);
+                    if (movie != nullptr) {
+                        if (movie->getStock() > 0) {
+                            movie->changeStock(-1);
+                            Customer* customer = customerTable->get(customerID);
+                            if (customer != nullptr) {
+                                Transaction* transaction = new Borrow(media, movie);
+                                customer->addTransaction(transaction);
+                            } else {
+                                cout << "ERROR: Customer not found." << endl;
+                            }
+                        } else {
+                            cout << "ERROR: Movie out of stock." << endl;
+                        }
+                    } else {
+                        cout << "ERROR: Movie not found in inventory." << endl;
+                    }
                 } else {
                     cout << "ERROR: " << genre << " Invalid Genre. Try again.";
                 }
@@ -156,13 +250,108 @@ void Store::readCommands(string filename) {
                 cout << "ERROR: " << media << " Invalid Media Type. Try again.";
             }
         } else if (type == "R") {
+            string IDstr;
+            std::getline(is, IDstr, ' ');
+            int customerID = stoi(IDstr);
+            string media;
+            std::getline(is, media, ' ');
+            if (media == "D") {
+                string genre;
+                std::getline(is, genre, ' ');
+                if (genre == "F") {
+                    string title;
+                    std::getline(is, title, ',');
+                    string yearStr;
+                    std::getline(is, yearStr);
+                    int year = stoi(yearStr);
+                    Movie* movie = comedyTable->get(title, year);
+                    if (movie != nullptr) {
+                        vector<Transaction*> transactions = customerTable->get(customerID)->getTransactionHistory();
+                        for (Transaction* transaction : transactions) {
+                            if (transaction->getMedia() == media && transaction->getMovie()->getTitle() == title
+                                && transaction->getMovie()->getYear() == year 
+                                && transaction->getTransactionType() == 'B') {
+                                // create new return transaction
+                                movie->changeStock(1);
+                                Transaction* returnTransaction = new Return(media, movie);
+                                customerTable->get(customerID)->addTransaction(returnTransaction);
+                            } else {
+                                cout << "ERROR: Customer never borrowed movie." << endl;
+                            }
+                        }
+                        // add to customer history
+                    } else {
+                        cout << "ERROR: Movie not found in inventory." << endl;
+                    }
+                } else if (genre == "D") {
+                    // get from drama inventory
+                    string director;
+                    std::getline(is, director, ',');
+                    string title;
+                    std::getline(is, title, ',');
+                    Movie* movie = dramaTable->get(title, director);
+                    if (movie != nullptr) {
+                        vector<Transaction*> transactions = customerTable->get(customerID)->getTransactionHistory();
+                        for (Transaction* transaction : transactions) {
+                            if (transaction->getMedia() == media && transaction->getMovie()->getTitle() == title
+                                && transaction->getMovie()->getDirector() == director 
+                                && transaction->getTransactionType() == 'B') {
+                                // create new return transaction
+                                movie->changeStock(1);
+                                Transaction* returnTransaction = new Return(media, movie);
+                                customerTable->get(customerID)->addTransaction(returnTransaction);
+                            } else {
+                                cout << "ERROR: Customer never borrowed movie." << endl;
+                            }
+                        }
+                        // add to customer history
+                    } else {
+                        cout << "ERROR: Movie not found in inventory." << endl;
+                    }
+                } else if (genre == "C") {
+                    // get from classics inventory
+                    string monthStr;
+                    std::getline(is, monthStr, ' ');
+                    int month = stoi(monthStr);
+                    string yearStr;
+                    std::getline(is, yearStr, ' ');
+                    int year = stoi(yearStr);
+                    string firstName;
+                    std::getline(is, firstName, ' ');
+                    string lastName;
+                    std::getline(is, lastName);
 
+                    Movie* movie = classicsTable->get(firstName, lastName, year, month);
+                    if (movie != nullptr) {
+                        vector<Transaction*> transactions = customerTable->get(customerID)->getTransactionHistory();
+                        for (Transaction* transaction : transactions) {
+                            Classics* classy = dynamic_cast<Classics*>(transaction->getMovie());
+                            if (transaction->getMedia() == media && classy->getFirstName() == firstName 
+                                && classy->getLastName() == lastName && classy->getTitle() == movie->getTitle() 
+                                && transaction->getTransactionType() == 'B' && classy->getYear() == year && classy->getMonth() == month) {
+                                // create new return transaction
+                                movie->changeStock(1);
+                                Transaction* returnTransaction = new Return(media, movie);
+                                customerTable->get(customerID)->addTransaction(returnTransaction);
+                            } else {
+                                cout << "ERROR: Customer never borrowed movie." << endl;
+                            }
+                        }
+                    } else {
+                        cout << "ERROR: Movie not found in inventory." << endl;
+                    }
+                } else {
+                    cout << "ERROR: " << genre << " Invalid Genre. Try again.";
+                }
         } else  if (type == "H") {
-        
+            string IDstr;
+            std::getline(is, IDstr, ' ');
+            int customerID = stoi(IDstr);
+            customerHistory(customerID);
         } else if (type == "I") {
-
+            viewInventory();
+        } else {
+            cout << "ERROR: " << type << " Invalid Command. Try again.";
         }
-            
-        // create new customer object
     }
 }

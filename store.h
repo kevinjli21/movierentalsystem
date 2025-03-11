@@ -6,6 +6,9 @@ using namespace std;
 #include <string>
 #include <iostream>
 #include "customerTable.h"
+#include "comedyTable.h"
+#include "dramaTable.h"
+#include "classicsTable.h"
 
 class Store {
     public:
@@ -19,6 +22,9 @@ class Store {
 
     private:
         CustomerTable* customerTable;
+        ComedyTable* comedyTable;
+        DramaTable* dramaTable;
+        ClassicsTable* classicsTable;
 };
 
 #endif // STORE_H

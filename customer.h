@@ -8,7 +8,7 @@
 using namespace std;
 
 class Customer {
-    private :
+    private:
         vector<Transaction*> transactionHistory;
         int customerID;
         string firstName;
@@ -21,5 +21,6 @@ class Customer {
         int getCustomerID();
         string getName();
         void addTransaction(Transaction* transaction);
+        vector<Transaction*> getTransactionHistory() const;
 };
 #endif // CUSTOMER_H

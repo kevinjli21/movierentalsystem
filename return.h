@@ -5,9 +5,13 @@
 
 class Return : public Transaction {
     public:
-        Return(Customer* customer, string media, Movie* movie); // CALL CONSTRUCTOR OF TRANSACTION
+        Return(string media, Movie* movie); // CALL CONSTRUCTOR OF TRANSACTION
         ~Return();
         void print() const override;
+        char getTransactionType() const;
+
+    private:
+        char transactionType; // 'R' for return
 
 };
 

@@ -9,14 +9,6 @@ ClassicsTable::ClassicsTable() {
     table.resize(TABLE_SIZE);
 }
 
-ClassicsTable::~ClassicsTable() {
-    for (int i = 0; i < TABLE_SIZE; ++i) {
-        for (Classics* movie : table[i]) {
-            delete movie;
-        }
-    }
-}
-
 Classics* ClassicsTable::get(const string& firstName, const string& lastName, const int& year, const int& month) {
     int index = hash(firstName, lastName, year, month);
     for (Classics* movie : table[index]) {

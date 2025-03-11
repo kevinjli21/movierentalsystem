@@ -5,9 +5,13 @@
 
 class Borrow : public Transaction {
     public:
-        Borrow(Customer* customer, string media, Movie* movie); // CALL CONSTRUCTOR OF TRANSACTION
+        Borrow(string media, Movie* movie); // CALL CONSTRUCTOR OF TRANSACTION
         ~Borrow();
         void print() const override;
+        char getTransactionType() const;
+
+    private:
+        char transactionType; // 'B' for borrow
 };
 
 #endif // BORROW_H

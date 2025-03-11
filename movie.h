@@ -16,6 +16,7 @@ class Movie{
     int getYear() const;
     string getTitle() const;
     string getDirector() const;
+    int getStock() const;
 
     protected:
     string title;

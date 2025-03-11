@@ -8,14 +8,16 @@
 class Transaction {
 
     public: 
-        Transaction(Customer* customer, string media, Movie* movie);
-        ~Transaction();
-        virtual void print() const;
+        Transaction(string media, Movie* movie);
+        virtual ~Transaction();
+        virtual void print() const = 0;
+        Movie* getMovie() const;
+        string getMedia() const;
+        virtual char getTransactionType() const = 0; 
 
-    private:
+    protected:
         string media;
         Movie* movie;
-        Customer* customer;
 };
 
 #endif // TRANSACTION_H

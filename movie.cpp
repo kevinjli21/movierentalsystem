@@ -38,3 +38,7 @@ string Movie::getTitle() const{
 string Movie::getDirector() const{
     return director;
 }
+
+int Movie::getStock() const{
+    return stock;
+}
