@@ -2,7 +2,6 @@
 #define MOVIETABLE_H
 
 #include "movie.h"
-#include <string>
 #include <vector>
 #include <list>
 
@@ -11,9 +10,11 @@ class MovieTable {
         MovieTable();
         virtual ~MovieTable();
         virtual void put(Movie* movie) = 0;
+        virtual Movie* get(const string& key) = 0;
+        virtual void printAll() = 0;
 
     protected:
-        size_t hash(const string& key);
+        virtual size_t hash(const string& key) = 0;
         
     private: 
         std::vector<list<Movie*>> table;

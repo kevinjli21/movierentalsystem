@@ -7,9 +7,13 @@ using namespace std;
 const int TABLE_SIZE = 101;
 
 MovieTable::MovieTable() {
-    
+    table.resize(TABLE_SIZE);
 }
 
-size_t MovieTable::hash1(const string& key) {
-    int hash = 0;
+MovieTable::~MovieTable() {
+    for (list<Movie*> bucket : table) {
+        for (Movie* movie : bucket) {
+            delete movie;
+        }
+    }
 }
