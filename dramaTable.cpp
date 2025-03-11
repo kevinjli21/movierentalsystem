@@ -1,19 +1,19 @@
-#include "comedyTable.h"
-#include "comedy.h"
+#include "dramaTable.h"
+#include "drama.h"
 #include <iostream>
 #include <algorithm>
 
 const int TABLE_SIZE = 101;
 
-ComedyTable::ComedyTable() : MovieTable() {
+DramaTable::DramaTable() : MovieTable() {
 
 }
 
-Movie* ComedyTable::get() {
+Movie* DramaTable::get() {
     // empty override - will never use these parameters
 }
 
-Movie* ComedyTable::get(const string& title, const int& year) {
+Movie* DramaTable::get(const string& title, const int& year) {
     int index = hash(title, year);
     for (Movie* movie : table[index]) {
         if (movie->getTitle() == title && movie->getYear() == year) {
@@ -24,11 +24,11 @@ Movie* ComedyTable::get(const string& title, const int& year) {
     return nullptr;
 }
 
-void ComedyTable::put() {
+void DramaTable::put() {
     // empty override - will never use these parameters
 }
 
-void* ComedyTable::put(Movie* movie) {
+void* DramaTable::put(Movie* movie) {
     int index = hash(movie->getTitle(), movie->getYear());
     table[index].push_back(movie);
 }
@@ -46,7 +46,7 @@ size_t hash(const string& title, const int& year) {
     return hashVal % TABLE_SIZE;
 }
 
-void ComedyTable::printAll() {
+void DramaTable::printAll() {
     vector<Movie*> toSort;
     for (list<Movie*> bucket : table) {
         for (Movie* movie : bucket) {
