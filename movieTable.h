@@ -9,12 +9,12 @@ class MovieTable {
     public:
         MovieTable();
         virtual ~MovieTable();
-        virtual void put(Movie* movie) = 0;
-        virtual Movie* get(const string& key) = 0;
+        virtual void put() = 0;
+        virtual Movie* get() = 0;
         virtual void printAll() = 0;
 
     protected:
-        virtual size_t hash(const string& key) = 0;
+        virtual size_t hash() = 0;
         std::vector<list<Movie*>> table;
         
 };
