@@ -51,14 +51,9 @@ void Store::customerHistory(int customer) {
     }
 }
 
-void Store::readInventory(string filename) {
-    ifstream infile1(filename);
-    if (!infile1) {
-        cout << "File could not be read" << endl;
-        return;
-    }
+void Store::readInventory(ifstream &infile) {
     string str;
-    while (std::getline(infile1, str)) {
+    while (std::getline(infile, str)) {
         istringstream is(str);
         string genre;
         std::getline(is, genre, ',');
@@ -122,14 +117,9 @@ void Store::readInventory(string filename) {
 
 }
 
-void Store::readCustomers(string filename) {
-    ifstream infile1(filename);
-    if (!infile1) {
-        cout << "File could not be read" << endl;
-        return;
-    }
+void Store::readCustomers(ifstream &infile) {
     string str;
-    while (std::getline(infile1, str)) {
+    while (std::getline(infile, str)) {
         istringstream is(str);
         string lastName;
         string firstName;
@@ -143,14 +133,9 @@ void Store::readCustomers(string filename) {
     }
 }
 
-void Store::readCommands(string filename) {
-    ifstream infile1(filename);
-    if (!infile1) {
-        cout << "File could not be read" << endl;
-        return;
-    }
+void Store::readCommands(ifstream &infile) {
     string str;
-    while (std::getline(infile1, str)) {
+    while (std::getline(infile, str)) {
         istringstream is(str);
         string type;
         std::getline(is, type, ' ');

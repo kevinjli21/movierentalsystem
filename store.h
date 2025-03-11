@@ -16,9 +16,9 @@ class Store {
         ~Store();
         void viewInventory();
         void customerHistory(int customer);
-        void readInventory(string filename);
-        void readCustomers(string filename);
-        void readCommands(string filename);
+        void readInventory(ifstream &infile);
+        void readCustomers(ifstream &infile);
+        void readCommands(ifstream &infile);
 
     private:
         CustomerTable* customerTable;
