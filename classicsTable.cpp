@@ -21,13 +21,13 @@ Classics* ClassicsTable::get(const string& firstName, const string& lastName, co
 }
 
 
-void* ClassicsTable::put(Classics* movie) {
+void ClassicsTable::put(Classics* movie) {
     int index = hash(movie->getFirstName(), movie->getLastName(), movie->getYear(), movie->getMonth());
     table[index].push_back(movie);
 }
 
 
-size_t hash(const string& firstName, const string& lastName, const int& year, const int& month) {
+size_t ClassicsTable::hash(const string& firstName, const string& lastName, const int& year, const int& month) {
     int hashVal = 0;
     for (char ch : firstName) {
         hashVal += ch;

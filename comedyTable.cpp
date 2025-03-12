@@ -28,12 +28,12 @@ Comedy* ComedyTable::get(const string& title, const int& year) {
     return nullptr;
 }
 
-void* ComedyTable::put(Comedy* movie) {
+void ComedyTable::put(Comedy* movie) {
     int index = hash(movie->getTitle(), movie->getYear());
     table[index].push_back(movie);
 }
 
-size_t hash(const string& title, const int& year) {
+size_t ComedyTable::hash(const string& title, const int& year) {
     int hashVal = 0;
     for (char ch : title) {
         hashVal += ch;
@@ -48,6 +48,19 @@ void ComedyTable::printAll() {
         for (Comedy* movie : bucket) {
             toSort.push_back(movie);
         }
+    }
+    cout << "Movies before sorting:" << endl;
+    for (Comedy* movie : toSort) {
+        cout << "Title: " << movie->getTitle() << ", Year: " << movie->getYear() << endl;
+    }
+
+    // Sort the movies
+    sort(toSort.begin(), toSort.end());
+
+    // Print the sorted movies
+    cout << "Movies after sorting:" << endl;
+    for (Comedy* movie : toSort) {
+        cout << *movie << endl;
     }
     sort(toSort.begin(), toSort.end());
     for (Comedy* movie : toSort) {

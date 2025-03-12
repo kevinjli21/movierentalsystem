@@ -7,7 +7,7 @@ class DramaTable {
         DramaTable();
         ~DramaTable();
         Drama* get(const string& title, const string& director);
-        void* put(Drama* movie);
+        void put(Drama* movie);
         void printAll();
 
     protected:

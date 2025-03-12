@@ -2,7 +2,6 @@
 #define CUSTOMERTABLE_H
 
 #include "customer.h"
-#include <string>
 #include <vector>
 #include <list>
 

@@ -1,16 +1,8 @@
 #include "store.h"
-#include "movie.h"
-#include "comedy.h"
-#include "drama.h"
-#include "classics.h"
-#include "customer.h"
-#include "return.h"
-#include "borrow.h"
-#include "transaction.h"
-#include <iostream>
-#include <string>
 #include <fstream>
 #include <sstream>
+#include "borrow.h"
+#include "return.h"
 
 using namespace std;
 
@@ -64,12 +56,19 @@ void Store::readInventory(ifstream &infile) {
             string stockStr;
             std::getline(is, stockStr, ',');
             int stock = stoi(stockStr);
-            std::getline(is, title, ',');
             std::getline(is, director, ',');
+            size_t start = director.find_first_not_of(" \t\n\r\f\v");
+            size_t end = director.find_last_not_of(" \t\n\r\f\v");
+            director = director.substr(start, end - start + 1);
+            std::getline(is, title, ',');
+            start = title.find_first_not_of(" \t\n\r\f\v");
+            end = title.find_last_not_of(" \t\n\r\f\v");
+            title = title.substr(start, end - start + 1);
+            cout << title << endl;
             string yearStr;
             std::getline(is, yearStr);
             int year = stoi(yearStr);
-            Comedy* toAdd = new Comedy(stock, title, director, year);
+            Comedy* toAdd = new Comedy(stock, director, title, year);
             // Add movie to inventory hash table
             comedyTable->put(toAdd);
             
@@ -80,26 +79,30 @@ void Store::readInventory(ifstream &infile) {
             string stockStr;
             std::getline(is, stockStr, ',');
             int stock = stoi(stockStr);
-            std::getline(is, title, ',');
             std::getline(is, director, ',');
+            std::getline(is, title, ',');
             string yearStr;
             std::getline(is, yearStr);
             int year = stoi(stockStr);
-            Drama* toAdd = new Drama(stock, title, director, year);
+            Drama* toAdd = new Drama(stock, director, title, year);
             // Add movie to inventory hash table
             dramaTable->put(toAdd);
         } else if (genre == "C") {
             // create new classics movie object
             string title;
             string director;
+
             string stockStr;
             std::getline(is, stockStr, ',');
             int stock = stoi(stockStr);
-            std::getline(is, title, ',');
             std::getline(is, director, ',');
+            std::getline(is, title, ',');
+            string actor;
             string firstName;
-            std::getline(is, firstName, ' ');
             string lastName;
+            string extraSpace;
+            std::getline(is, extraSpace, ' ');
+            std::getline(is, firstName, ' ');
             std::getline(is, lastName, ' ');
             string monthStr;
             string yearStr;
@@ -107,11 +110,11 @@ void Store::readInventory(ifstream &infile) {
             std::getline(is, yearStr);
             int month = stoi(monthStr);
             int year = stoi(yearStr);
-            Classics* toAdd = new Classics(stock, title, director, firstName, lastName, month, year);
+            Classics* toAdd = new Classics(stock, director, title, firstName, lastName, month, year);
             // Add movie to inventory hash table
             classicsTable->put(toAdd);
         } else {
-            cout << "ERROR: " << genre << " Invalid Genre. Try again.";
+            cout << "ERROR: " << genre << " Invalid Genre. Try again." << endl; 
         }
     }
 
@@ -337,6 +340,7 @@ void Store::readCommands(ifstream &infile) {
             viewInventory();
         } else {
             cout << "ERROR: " << type << " Invalid Command. Try again.";
+        }
         }
     }
 }

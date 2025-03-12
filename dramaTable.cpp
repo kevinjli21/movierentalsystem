@@ -29,12 +29,12 @@ Drama* DramaTable::get(const string& title, const string& director) {
     return nullptr;
 }
 
-void* DramaTable::put(Drama* movie) {
+void DramaTable::put(Drama* movie) {
     int index = hash(movie->getTitle(), movie->getDirector());
     table[index].push_back(movie);
 }
 
-size_t hash(const string& title, const string& director) {
+size_t DramaTable::hash(const string& title, const string& director) {
     int hashVal = 0;
     for (char ch : title) {
         hashVal += ch;

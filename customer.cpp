@@ -31,3 +31,7 @@ string Customer::getName() {
 void Customer::addTransaction(Transaction* transaction) {
     transactionHistory.push_back(transaction);
 }
+
+vector<Transaction*> Customer::getTransactionHistory() const {
+    return transactionHistory;
+}

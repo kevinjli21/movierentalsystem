@@ -9,7 +9,7 @@ CustomerTable::CustomerTable() {
 }
 
 CustomerTable::~CustomerTable() {
-    for (list bucket : table) {
+    for (list<Customer*> bucket : table) {
         for (Customer* customer : bucket) {
             delete customer;
         }

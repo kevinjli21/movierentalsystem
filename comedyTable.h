@@ -7,7 +7,7 @@ class ComedyTable {
         ComedyTable();
         ~ComedyTable();
         Comedy* get(const string& title, const int& year);
-        void* put(Comedy* movie);
+        void put(Comedy* movie);
         void printAll();
 
     protected:

@@ -10,19 +10,10 @@ void Comedy::print(ostream& os) const {
 }
 
 bool Comedy::operator<(const Comedy& other) const{
-    if(year < other.year){
-        return true;
-    }
-    else if(year == other.year){
-        if(director < other.director){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-    else{
-        return false;
+    if (title == other.title) {
+        return year < other.year;
+    } else {
+        return title < other.title;
     }
 }
 
