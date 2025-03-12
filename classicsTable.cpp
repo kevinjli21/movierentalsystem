@@ -16,7 +16,6 @@ Classics* ClassicsTable::get(const string& firstName, const string& lastName, co
             return movie;
         }
     }
-    cout << "Movie not found" << endl;
     return nullptr;
 }
 

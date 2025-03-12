@@ -25,7 +25,6 @@ Drama* DramaTable::get(const string& title, const string& director) {
             return movie;
         }
     }
-    cout << "Movie not found" << endl;
     return nullptr;
 }
 

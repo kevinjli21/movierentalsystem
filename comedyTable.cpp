@@ -24,7 +24,6 @@ Comedy* ComedyTable::get(const string& title, const int& year) {
             return movie;
         }
     }
-    cout << "Movie not found" << endl;
     return nullptr;
 }
 
