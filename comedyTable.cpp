@@ -53,7 +53,6 @@ void ComedyTable::printAll() {
     sort(toSort.begin(), toSort.end());
 
     // Print the sorted movies
-    cout << "Movies after sorting:" << endl;
     for (Comedy& movie : toSort) {
         cout << movie << endl;
     }

@@ -12,30 +12,17 @@ void Classics::print(ostream& os)const{
 }
 
 bool Classics::operator<(const Classics& other)const{
-    if(year < other.year){
-        return true;
-    }
-    else if(year == other.year){
-        if(month < other.month){
-            return true;
-        }
-        else if(month == other.month){
-            if(firstName < other.firstName){
-                return true;
-            }
-            else if(firstName == other.firstName){
+    if (year == other.year) {
+        if (month == other.month) {
+            if (firstName == other.firstName) {
                 return lastName < other.lastName;
-            }
-            else{
-                return false;
+            } else {
+                return firstName < other.firstName;
             }
         }
-        else{
-            return false;
-        }
-    }
-    else{
-        return false;
+        return month < other.month;
+    } else {
+        return year < other.year;
     }
 }
 

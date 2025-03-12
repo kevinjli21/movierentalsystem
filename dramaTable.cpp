@@ -46,15 +46,15 @@ size_t DramaTable::hash(const string& title, const string& director) {
 }
 
 void DramaTable::printAll() {
-    vector<Drama*> toSort;
+    vector<Drama> toSort;
     for (list<Drama*> bucket : table) {
         for (Drama* movie : bucket) {
-            toSort.push_back(movie);
+            toSort.push_back(*movie);
         }
     }
     sort(toSort.begin(), toSort.end());
-    for (Drama* movie : toSort) {
-        cout << *movie << endl;
+    for (Drama& movie : toSort) {
+        cout << movie << endl;
     }
 }
 

@@ -41,15 +41,15 @@ size_t ClassicsTable::hash(const string& firstName, const string& lastName, cons
 }
 
 void ClassicsTable::printAll() {
-    vector<Classics*> toSort;
+    vector<Classics> toSort;
     for (list<Classics*> bucket : table) {
         for (Classics* movie : bucket) {
-            cout << *movie << endl;
+            toSort.push_back(*movie);
         }
     }
     sort(toSort.begin(), toSort.end());
-    for (Classics* movie : toSort) {
-        cout << *movie << endl;
+    for (Classics& movie : toSort) {
+        cout << movie << endl;
     }
 }
 
