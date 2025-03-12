@@ -14,5 +14,5 @@ class ClassicsTable {
         size_t hash(const string& firstName, const string& lastName, const int& year, const int& month);
 
     private:
-        std::vector<list<Classics*>> table;
+        std::vector<list<Classics*>> table; // vector of buckets for chaining
 };

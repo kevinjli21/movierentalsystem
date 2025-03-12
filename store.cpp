@@ -6,6 +6,7 @@
 
 using namespace std;
 
+// Constructor
 Store::Store() {
     // initialize classics hash table as empty
     classicsTable = new ClassicsTable();
@@ -18,12 +19,17 @@ Store::Store() {
     
 }
 
+// Destructor
 Store::~Store() {
     // delete all customers
     // delete all inventory
 
 }
 
+/**
+ * View inventory
+ * @return void
+ */
 void Store::viewInventory() {
     // print COMEDY movies, by title then year
     comedyTable->printAll();
@@ -33,6 +39,12 @@ void Store::viewInventory() {
     classicsTable->printAll();
 }
 
+
+/**
+ * Print customer history
+ * @param customer customer ID
+ * @return void
+ */
 void Store::customerHistory(int customer) {
     // print customer history using customer->showTransactions()
     Customer* cust = customerTable->get(customer);
@@ -44,6 +56,11 @@ void Store::customerHistory(int customer) {
     }
 }
 
+/**
+ * Read inventory from file and add to inventory hash table
+ * @param infile file to read inventory from
+ * @return void
+ */
 void Store::readInventory(ifstream &infile) {
     string str;
     while (std::getline(infile, str)) {
@@ -58,6 +75,7 @@ void Store::readInventory(ifstream &infile) {
             std::getline(is, stockStr, ',');
             int stock = stoi(stockStr);
             std::getline(is, director, ',');
+            // remove extra whitespace
             size_t start = director.find_first_not_of(" \t\n\r\f\v");
             size_t end = director.find_last_not_of(" \t\n\r\f\v");
             director = director.substr(start, end - start + 1);
@@ -138,6 +156,11 @@ void Store::readInventory(ifstream &infile) {
 
 }
 
+/**
+ * Read customers from file and add to customer hash table
+ * @param infile file to read customers from
+ * @return void
+ */
 void Store::readCustomers(ifstream &infile) {
     string str;
     while (std::getline(infile, str)) {
@@ -154,6 +177,11 @@ void Store::readCustomers(ifstream &infile) {
     }
 }
 
+/**
+ * Read commands from file and execute them
+ * @param infile file to read commands from
+ * @return void
+ */
 void Store::readCommands(ifstream &infile) {
     string str;
     while (std::getline(infile, str)) {
@@ -183,7 +211,8 @@ void Store::readCommands(ifstream &infile) {
                             if (customer != nullptr) {
                                 Transaction* transaction = new Borrow(media, movie);
                                 customer->addTransaction(transaction);
-                                cout << "Borrowed " << genre << " " << movie->getTitle() << "  by " << movie->getDirector() << endl;
+                                cout << "Borrowed " << genre << " " << movie->getTitle() 
+                                     << "  by " << movie->getDirector() << endl;
                             } else {
                                 cout << "ERROR: Customer not found." << endl;
                             }
@@ -215,7 +244,8 @@ void Store::readCommands(ifstream &infile) {
                             if (customer != nullptr) {
                                 Transaction* transaction = new Borrow(media, movie);
                                 customer->addTransaction(transaction);
-                                cout << "Borrowed " << genre << " " << movie->getTitle() << "  by " << movie->getDirector() << endl;
+                                cout << "Borrowed " << genre << " " << movie->getTitle() 
+                                     << "  by " << movie->getDirector() << endl;
                             } else {
                                 cout << "ERROR: Customer not found." << endl;
                             }
@@ -237,6 +267,7 @@ void Store::readCommands(ifstream &infile) {
                     int year = stoi(yearStr);
                     string firstName;
                     std::getline(is, firstName, ' ');
+                    // remove extra whitespace
                     size_t start = firstName.find_first_not_of(" \t\n\r\f\v");
                     size_t end = firstName.find_last_not_of(" \t\n\r\f\v");
                     firstName = firstName.substr(start, end - start + 1);
@@ -254,7 +285,9 @@ void Store::readCommands(ifstream &infile) {
                                 Transaction* transaction = new Borrow(media, movie);
                                 customer->addTransaction(transaction);
                                 customer->addToBorrowed(movie);
-                                cout << "Borrowed " << genre << " " << movie->getTitle() << "  by " << movie->getDirector() << "(" << firstName << " " << lastName << ")" << endl;
+                                cout << "Borrowed " << genre << " " << movie->getTitle() 
+                                     << "  by " << movie->getDirector() << "(" << firstName 
+                                     << " " << lastName << ")" << endl;
                             } else {
                                 cout << "ERROR: Customer not found." << endl;
                             }
@@ -290,16 +323,20 @@ void Store::readCommands(ifstream &infile) {
                     int year = stoi(yearStr);
                     Movie* movie = comedyTable->get(title, year);
                     if (movie != nullptr) {
-                        vector<Transaction*> transactions = customerTable->get(customerID)->getTransactionHistory();
+                        vector<Transaction*> transactions = customerTable->
+                            get(customerID)->getTransactionHistory();
                         for (Transaction* transaction : transactions) {
-                            if (transaction->getMedia() == media && transaction->getMovie()->getTitle() == title
+                            if (transaction->getMedia() == media && transaction->
+                                getMovie()->getTitle() == title
                                 && transaction->getMovie()->getYear() == year 
                                 && transaction->getTransactionType() == 'B') {
                                 // create new return transaction
                                 movie->changeStock(1);
                                 Transaction* returnTransaction = new Return(media, movie);
                                 customerTable->get(customerID)->addTransaction(returnTransaction);
-                                cout << "Returned " << genre << " " << movie->getTitle() << "  by " << movie->getDirector() << endl;
+                                cout << "Returned " << genre << " " 
+                                     << movie->getTitle() << "  by " 
+                                     << movie->getDirector() << endl;
                             } else {
                                 cout << "ERROR: Customer never borrowed movie." << endl;
                             }
@@ -312,6 +349,7 @@ void Store::readCommands(ifstream &infile) {
                     // get from drama inventory
                     string director;
                     std::getline(is, director, ',');
+                    // remove extra whitespace
                     size_t start = director.find_first_not_of(" \t\n\r\f\v");
                     size_t end = director.find_last_not_of(" \t\n\r\f\v");
                     director = director.substr(start, end - start + 1);
@@ -322,16 +360,21 @@ void Store::readCommands(ifstream &infile) {
                     title = title.substr(start, end - start + 1);
                     Movie* movie = dramaTable->get(title, director);
                     if (movie != nullptr) {
-                        vector<Transaction*> transactions = customerTable->get(customerID)->getTransactionHistory();
+                        vector<Transaction*> transactions = customerTable->
+                            get(customerID)->getTransactionHistory();
                         for (Transaction* transaction : transactions) {
-                            if (transaction->getMedia() == media && transaction->getMovie()->getTitle() == title
-                                && transaction->getMovie()->getDirector() == director 
+                            if (transaction->getMedia() == media && 
+                                transaction->getMovie()->getTitle() == title
+                                && transaction->getMovie()
+                                    ->getDirector() == director 
                                 && transaction->getTransactionType() == 'B') {
                                 // create new return transaction
                                 movie->changeStock(1);
                                 Transaction* returnTransaction = new Return(media, movie);
-                                customerTable->get(customerID)->addTransaction(returnTransaction);
-                                cout << "Returned " << genre << " " << movie->getTitle() << "  by " << movie->getDirector() << endl;
+                                customerTable->get(customerID)->
+                                addTransaction(returnTransaction);
+                                cout << "Returned " << genre << " " << movie->getTitle() 
+                                     << "  by " << movie->getDirector() << endl;
                             } else {
                                 cout << "ERROR: Customer never borrowed movie." << endl;
                             }
@@ -350,6 +393,7 @@ void Store::readCommands(ifstream &infile) {
                     int year = stoi(yearStr);
                     string firstName;
                     std::getline(is, firstName, ' ');
+                    // remove extra whitespace
                     size_t start = firstName.find_first_not_of(" \t\n\r\f\v");
                     size_t end = firstName.find_last_not_of(" \t\n\r\f\v");
                     firstName = firstName.substr(start, end - start + 1);
@@ -367,9 +411,13 @@ void Store::readCommands(ifstream &infile) {
                             movie->changeStock(1);
                             Transaction* returnTransaction = new Return(media, movie);
                             customer->addTransaction(returnTransaction);
-                            cout << "Returned " << genre << " " << movie->getTitle() << "  by " << movie->getDirector() << "(" << firstName << " " << lastName << ")" << endl;
+                            cout << "Returned " << genre << " " 
+                                 << movie->getTitle() << "  by " 
+                                 << movie->getDirector() << " (" 
+                                 << firstName << " " << lastName << ")" << endl;
                         } else {
-                            cout << "ERROR: Customer never borrowed movie." << endl;
+                            cout << "ERROR: Customer never borrowed movie." 
+                                 << endl;
                         }
                     } else {
                         cout << "ERROR: Movie not found in inventory." << endl;

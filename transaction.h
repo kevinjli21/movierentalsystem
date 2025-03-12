@@ -16,7 +16,7 @@ class Transaction {
         virtual char getTransactionType() const = 0; 
 
     protected:
-        string media;
+        string media; // media type
         Movie* movie;
 };
 

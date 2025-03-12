@@ -22,8 +22,8 @@ class Customer {
         vector<Transaction*> getTransactionHistory() const;
 
     private:
-        vector<Transaction*> transactionHistory;
-        vector<Movie*> borrowedMovies;
+        vector<Transaction*> transactionHistory; // history of transactions
+        vector<Movie*> borrowedMovies; // Borrowed movies, to see if customer can return movie
         int customerID;
         string firstName;
         string lastName;
