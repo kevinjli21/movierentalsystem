@@ -1,4 +1,5 @@
 #include "classics.h"
+#include <iomanip>
 
 // constructor
 Classics::Classics(int stock, string director, string title, string firstName, string lastName, int month, int year):Movie(stock, director, title, year){
@@ -8,7 +9,12 @@ Classics::Classics(int stock, string director, string title, string firstName, s
 }
 // display information of the movie
 void Classics::print(ostream& os)const{
-    os << "Classics " << title << ", Director: " << director << ", Major Actor: " << firstName << " " << lastName << ", Release: " << month << " " << year << ", Stock: " << stock;
+    cout << left << setw(10) << "Classics";
+    cout << setw(35) << title;
+    cout << setw(25) << director;
+    cout << setw(25) << firstName + " " + lastName;
+    cout << setw(1) << month << " " << setw(9) << year;
+    cout << stock << endl;
 }
 /** This method compare the data of classics movie to
   * sort them in order to store them in a hashtable

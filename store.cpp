@@ -36,17 +36,36 @@ Store::~Store() {
  * @return void
  */
 void Store::viewInventory() {
-    cout << "Genre";
-    cout << setw(10) << "Title";
-    cout << setw(20) << "Director";
-    cout << setw(15) << "Release";
-    cout << setw(10) << "Stock" << endl;
+
+    cout << "COMEDY MOVIES" << endl;
+    cout << left << setw(10) << "Genre";
+    cout << setw(35) << "Title";
+    cout << setw(25) << "Director";
+    cout << setw(10) << "Release";
+    cout << "Stock" << endl;
     // print COMEDY movies, by title then year
     comedyTable->printAll();
+    cout << endl;
     // print DRAMA movies, by director then title
+    cout << "DRAMA MOVIES" << endl;
+    cout << left << setw(10) << "Genre";
+    cout << setw(35) << "Title";
+    cout << setw(25) << "Director";
+    cout << setw(10) << "Release";
+    cout << "Stock" << endl;
     dramaTable->printAll();
+    cout << endl;
+
     // print CLASSICS movies, by release date then major actor
+    cout << "CLASSICS MOVIES" << endl;
+    cout << left << setw(10) << "Genre";
+    cout << setw(35) << "Title";
+    cout << setw(25) << "Director";
+    cout << setw(25) << "Major Actor";
+    cout << setw(10) << "Release";
+    cout << "Stock" << endl;
     classicsTable->printAll();
+    cout << endl;
 }
 
 

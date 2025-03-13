@@ -82,7 +82,6 @@ void ClassicsTable::printAll() {
     for (Classics& movie : toSort) {
         cout << movie << endl;
     }
-    cout << "done!" << endl;
 }
 
 

@@ -36,7 +36,6 @@ int main() {
 
     cout << "Printing Inventory after commands" << endl;
     newStore.viewInventory();
-    cout << "wat" << endl;
     
     return 0;
 }

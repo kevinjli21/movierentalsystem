@@ -1,4 +1,5 @@
 #include "drama.h"
+#include <iomanip>
 
 // constructor
 Drama::Drama(int stock, string director, string title, int year):Movie(stock, director, title, year){
@@ -6,7 +7,11 @@ Drama::Drama(int stock, string director, string title, int year):Movie(stock, di
 }
 // display information of the movie
 void Drama::print(ostream& os)const{
-    os << "Drama, " << title << ", Director: " << director << ", Release: " << year << ", Stock: " << stock;
+    os  << left << setw(10) << "Drama" 
+        << setw(35) << title 
+        << setw(25) << director
+        << setw(10) << year 
+        << stock;
 }
 /** This method compares two drama movie to sort them 
   * in order to store them in a hashtable. The method 

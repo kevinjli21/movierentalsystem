@@ -1,4 +1,5 @@
 #include "comedy.h"
+#include <iomanip>
 
 // constructor
 Comedy::Comedy(int stock, string director, string title, int year):Movie(stock, director, title, year){
@@ -6,7 +7,11 @@ Comedy::Comedy(int stock, string director, string title, int year):Movie(stock, 
 }
 // display information of the movie
 void Comedy::print(ostream& os) const {
-    os << "Comedy, " << title << ", Director: " << director << ", Release: " << year << ", Stock: " << stock;
+    os  << left << setw(10) << "Comedy" 
+        << setw(35) << title 
+        << setw(25) << director
+        << setw(10) << year 
+        << stock;
 }
 /** Compare the Comedy movie to sort them and to store 
   * them in a hash table. The method will compare their
