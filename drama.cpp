@@ -11,7 +11,7 @@ void Drama::print(ostream& os)const{
 /** This method compares two drama movie to sort them 
   * in order to store them in a hashtable. The method 
   * will compare the release year, and if they have same 
-  * release year , then compare their directure
+  * release year , then compare their director
 */
 bool Drama::operator<(const Drama& other)const{
     if(year < other.year){

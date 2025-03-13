@@ -11,7 +11,7 @@ Transaction::Transaction(string media, Movie* movie) {
 
 // Destructor
 Transaction::~Transaction() {
-    delete movie;
+    movie == nullptr;
 }
 
 /**

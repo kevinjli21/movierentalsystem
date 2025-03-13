@@ -3,6 +3,7 @@
 #include <sstream>
 #include "borrow.h"
 #include "return.h"
+#include <iomanip>
 
 using namespace std;
 
@@ -21,8 +22,12 @@ Store::Store() {
 
 // Destructor
 Store::~Store() {
-    // delete all customers
     // delete all inventory
+    delete classicsTable;
+    delete dramaTable;
+    delete comedyTable;
+    // delete all customers
+    delete customerTable;
 
 }
 
@@ -31,6 +36,11 @@ Store::~Store() {
  * @return void
  */
 void Store::viewInventory() {
+    cout << "Genre";
+    cout << setw(10) << "Title";
+    cout << setw(20) << "Director";
+    cout << setw(15) << "Release";
+    cout << setw(10) << "Stock" << endl;
     // print COMEDY movies, by title then year
     comedyTable->printAll();
     // print DRAMA movies, by director then title
