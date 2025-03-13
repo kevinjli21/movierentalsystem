@@ -2,10 +2,12 @@
 #define CLASSICS_H_
 #include "movie.h"
 using namespace std;
-
+// derived class of class Movie
 class Classics : public Movie{
     public:
+    // constructor
     Classics(int stock, string director, string title, string firstName, string lastName, int month, int year);
+    // functions
     void print(ostream& os)const override;
     bool operator<(const Classics& other)const;
     bool operator>(const Classics& other)const;
@@ -15,8 +17,8 @@ class Classics : public Movie{
     int getYear() const; 
 
     private:
-    string firstName;
-    string lastName;
-    int month;
+    string firstName; // firstname of major actor
+    string lastName;  // lastname of major actor
+    int month;  // release month
 };
 #endif // CLASSICS_H_
