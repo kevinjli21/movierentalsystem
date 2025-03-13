@@ -3,19 +3,17 @@
 #include <iostream>
 #include <algorithm>
 
-const int TABLE_SIZE = 101;
-
 // Constructor
 DramaTable::DramaTable() {
-    table.resize(TABLE_SIZE);
+    for (int i = 0; i < 101; ++i) {
+        table[i] = nullptr;
+    }
 }
 
 // Destructor
 DramaTable::~DramaTable() {
-    for (int i = 0; i < TABLE_SIZE; ++i) {
-        for (Drama* movie : table[i]) {
-            delete movie;
-        }
+    for (Drama* drama : table) {
+        delete drama;
     }
 }
 
@@ -27,9 +25,15 @@ DramaTable::~DramaTable() {
  */
 Drama* DramaTable::get(const string& title, const string& director) {
     int index = hash(title, director);
-    for (Drama* movie : table[index]) {
-        if (movie->getTitle() == title && movie->getDirector() == director) {
-            return movie;
+    int indexTemp = index;
+    while (table[index] != nullptr) {
+        if (table[index]->getTitle() == title &&
+            table[index]->getDirector() == director) {
+            return table[index];
+        }
+        index = (index + 1) % 101;
+        if (index == indexTemp) {
+            break;
         }
     }
     return nullptr;
@@ -41,7 +45,15 @@ Drama* DramaTable::get(const string& title, const string& director) {
  */
 void DramaTable::put(Drama* movie) {
     int index = hash(movie->getTitle(), movie->getDirector());
-    table[index].push_back(movie);
+    int indexTemp = index;
+    while (table[index] != nullptr) {
+        index = (index + 1) % 101;
+        if (index == indexTemp) {
+            cout << "ERROR: Hash table is full." << endl;
+            return;
+        }
+    }
+    table[index] = movie;
 }
 
 /**
@@ -58,7 +70,7 @@ size_t DramaTable::hash(const string& title, const string& director) {
     for (char ch : director) {
         hashVal += ch;
     }
-    return hashVal % TABLE_SIZE;
+    return hashVal % 101;
 }
 
 /**
@@ -66,8 +78,8 @@ size_t DramaTable::hash(const string& title, const string& director) {
  */
 void DramaTable::printAll() {
     vector<Drama> toSort;
-    for (list<Drama*> bucket : table) {
-        for (Drama* movie : bucket) {
+    for (Drama* movie : table) {
+        if (movie != nullptr) {
             toSort.push_back(*movie);
         }
     }

@@ -2,6 +2,7 @@
 #include <vector>
 #include <list>
 
+
 class ComedyTable {
     public:
         ComedyTable();
@@ -14,5 +15,5 @@ class ComedyTable {
         size_t hash(const string& title, const int& year);
 
     private: 
-        std::vector<list<Comedy*>> table; // vector of buckets for chaining
+        Comedy* table[101];
 };

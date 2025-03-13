@@ -14,5 +14,5 @@ class DramaTable {
         size_t hash(const string& title, const string& director);
 
     private: 
-        std::vector<list<Drama*>> table; // vector of buckets for chaining
+        Drama* table[101];
 };

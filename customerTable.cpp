@@ -2,19 +2,17 @@
 
 using namespace std;
 
-const int TABLE_SIZE = 101;
-
 // Constructor
 CustomerTable::CustomerTable() {
-    table.resize(TABLE_SIZE);
+    for (int i = 0; i < 101; ++i) {
+        table[i] = nullptr;
+    }
 }
 
 // Destructor
 CustomerTable::~CustomerTable() {
-    for (list<Customer*> bucket : table) {
-        for (Customer* customer : bucket) {
-            delete customer;
-        }
+    for (Customer* customer : table) {
+        delete customer;
     }
 }
 
@@ -24,7 +22,15 @@ CustomerTable::~CustomerTable() {
  */
 void CustomerTable::put(Customer* customer) {
     int index = hash(customer->getCustomerID());
-    table[index].push_back(customer);
+    int indexTemp = index;
+    while (table[index] != nullptr) {
+        index = (index + 1) % 101;
+        if (index == indexTemp) {
+            cout << "ERROR: Hash table is full." << endl;
+            return;
+        }
+    }
+    table[index] = customer;
 }
 
 /**
@@ -34,12 +40,16 @@ void CustomerTable::put(Customer* customer) {
  */
 Customer* CustomerTable::get(const int& customerID) {
     int index = hash(customerID);
-    for (Customer* customer : table[index]) {
-        if (customer->getCustomerID() == customerID) {
-            return customer;
+    int indexTemp = index;
+    while (table[index] != nullptr) {
+        if (table[index]->getCustomerID() == customerID) {
+            return table[index];
+        }
+        index = (index + 1) % 101;
+        if (index == indexTemp) {
+            break;
         }
     }
-    cout << "Customer not found" << endl;
     return nullptr;
 }
 
@@ -49,5 +59,5 @@ Customer* CustomerTable::get(const int& customerID) {
  * @return hash value
  */
 size_t CustomerTable::hash(const int& key) {
-    return key % TABLE_SIZE;
+    return key % 101;
 }

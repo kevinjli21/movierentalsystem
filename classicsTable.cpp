@@ -3,19 +3,17 @@
 #include <iostream>
 #include <algorithm>
 
-const int TABLE_SIZE = 101;
-
 // Constructor
 ClassicsTable::ClassicsTable() {
-    table.resize(TABLE_SIZE);
+    for (int i = 0; i < 101; ++i) {
+        table[i] = nullptr;
+    }
 }
 
 // Destructor
 ClassicsTable::~ClassicsTable() {
-    for (int i = 0; i < TABLE_SIZE; ++i) {
-        for (Classics* movie : table[i]) {
-            delete movie;
-        }
+    for (int i = 0; i < 101; ++i) {
+        delete table[i];
     }
 }
 
@@ -29,9 +27,17 @@ ClassicsTable::~ClassicsTable() {
  */
 Classics* ClassicsTable::get(const string& firstName, const string& lastName, const int& year, const int& month) {
     int index = hash(firstName, lastName, year, month);
-    for (Classics* movie : table[index]) {
-        if (movie->getFirstName() == firstName && movie-> getLastName() == lastName && movie->getYear() == year && movie->getMonth() == month) {
-            return movie;
+    int indexTemp = index;
+    while (table[index] != nullptr) {
+        if (table[index]->getFirstName() == firstName &&
+            table[index]->getLastName() == lastName &&
+            table[index]->getYear() == year &&
+            table[index]->getMonth() == month) {
+            return table[index];
+        }
+        index = (index + 1) % 101;
+        if (index == indexTemp) {
+            break;
         }
     }
     return nullptr;
@@ -44,7 +50,15 @@ Classics* ClassicsTable::get(const string& firstName, const string& lastName, co
  */
 void ClassicsTable::put(Classics* movie) {
     int index = hash(movie->getFirstName(), movie->getLastName(), movie->getYear(), movie->getMonth());
-    table[index].push_back(movie);
+    int indexTemp = index;
+    while (table[index] != nullptr) {
+        index = (index + 1) % 101;
+        if (index == indexTemp) {
+            cout << "ERROR: Hash table is full." << endl;
+            return;
+        }
+    }
+    table[index] = movie;
 }
 
 /**
@@ -65,7 +79,7 @@ size_t ClassicsTable::hash(const string& firstName, const string& lastName, cons
     }
     hashVal += year;
     hashVal += month;
-    return hashVal % TABLE_SIZE;
+    return hashVal % 101;
 }
 
 /**
@@ -73,8 +87,8 @@ size_t ClassicsTable::hash(const string& firstName, const string& lastName, cons
  */
 void ClassicsTable::printAll() {
     vector<Classics> toSort;
-    for (list<Classics*> bucket : table) {
-        for (Classics* movie : bucket) {
+    for (Classics* movie : table) {
+        if (movie != nullptr) {
             toSort.push_back(*movie);
         }
     }

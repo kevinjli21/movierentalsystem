@@ -3,19 +3,17 @@
 #include <iostream>
 #include <algorithm>
 
-const int TABLE_SIZE = 101;
-
 // Constructor
 ComedyTable::ComedyTable() {
-    table.resize(TABLE_SIZE);
+    for (int i = 0; i < 101; ++i) {
+        table[i] = nullptr;
+    }
 }
 
 // Destructor
 ComedyTable::~ComedyTable() {
-    for (int i = 0; i < TABLE_SIZE; ++i) {
-        for (Comedy* movie : table[i]) {
-            delete movie;
-        }
+    for (Comedy* comedy : table) {
+        delete comedy;
     }
 }
 
@@ -27,9 +25,15 @@ ComedyTable::~ComedyTable() {
  */
 Comedy* ComedyTable::get(const string& title, const int& year) {
     int index = hash(title, year);
-    for (Comedy* movie : table[index]) {
-        if (movie->getTitle() == title && movie->getYear() == year) {
-            return movie;
+    int indexTemp = index;
+    while (table[index] != nullptr) {
+        if (table[index]->getTitle() == title &&
+            table[index]->getYear() == year) {
+            return table[index];
+        }
+        index = (index + 1) % 101;
+        if (index == indexTemp) {
+            break;
         }
     }
     return nullptr;
@@ -41,7 +45,15 @@ Comedy* ComedyTable::get(const string& title, const int& year) {
  */
 void ComedyTable::put(Comedy* movie) {
     int index = hash(movie->getTitle(), movie->getYear());
-    table[index].push_back(movie);
+    int indexTemp = index;
+    while (table[index] != nullptr) {
+        index = (index + 1) % 101;
+        if (index == indexTemp) {
+            cout << "ERROR: Hash table is full." << endl;
+            return;
+        }
+    }
+    table[index] = movie;
 }
 
 /**
@@ -56,7 +68,7 @@ size_t ComedyTable::hash(const string& title, const int& year) {
         hashVal += ch;
     }
     hashVal += year;
-    return hashVal % TABLE_SIZE;
+    return hashVal % 101;
 }
 
 /**
@@ -64,8 +76,8 @@ size_t ComedyTable::hash(const string& title, const int& year) {
  */
 void ComedyTable::printAll() {
     vector<Comedy> toSort;
-    for (list<Comedy*> bucket : table) {
-        for (Comedy* movie : bucket) {
+    for (Comedy* movie : table) {
+        if (movie != nullptr) {
             toSort.push_back(*movie);
         }
     }

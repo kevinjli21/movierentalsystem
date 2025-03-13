@@ -14,7 +14,7 @@ class CustomerTable {
         Customer* get(const int& customerID);
     
     private: 
-        std::vector<list<Customer*>> table; // vector of buckets for chaining
+        Customer* table[101];
         size_t hash(const int& key);
 
 };

@@ -81,7 +81,7 @@ void Store::customerHistory(int customer) {
         cout << "History for " << cust->getName() << endl;
         cust->showTransactions();
     } else {
-        cout << "Customer not found" << endl;
+        cout << "ERROR: Customer not found" << endl;
     }
 }
 
